@@ -6,7 +6,7 @@ import SearchBar from '../components/searchBar/SearchBar'
 
 const HomeLayoutes = () => {
     return (
-        <div className='Gbg-night h-[100vh]'>
+        <div className=''>
              <SearchBar/>
             <NowCard/>
         </div>

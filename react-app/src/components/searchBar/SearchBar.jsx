@@ -4,7 +4,7 @@ const SearchBar = () => {
   return (
     <div className="container  ">
     <div className="flex justify-center pt-10">
-        <label className="relative block w-[50%]  ">
+        <label className="relative block w-[80%] sm:w-[70%] md:w-[60%] ">
             <span className="sr-only">Search</span>
             <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                 <svg className="h-5 w-5 fill-slate-300" viewBox="0 0 20 20"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
