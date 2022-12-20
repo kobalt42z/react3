@@ -107,6 +107,7 @@ const NowCard = () => {
         let nd = new Date(utc + (3600000 * offset));
         // return time as a string
         // const output =  nd.getHours() + ":" + nd.getMinutes();
+        isDay(nd.getHours())
         const output = nd.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
         // set the value of the time 
         return output;
@@ -123,7 +124,7 @@ const NowCard = () => {
     useEffect(() => {
         // fetchIcons("02n");
         calcTime(3200)
-        isDay(9)
+        // isDay(Wtime)
 
         // setData(bringWeather("paris"))
         console.log(data);
