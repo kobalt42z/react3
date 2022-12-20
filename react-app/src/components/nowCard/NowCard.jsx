@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { useSearchParams } from 'react-router-dom'
 import loading from './loading.svg'
+
 
 
 const NowCard = () => {
@@ -20,10 +21,63 @@ const NowCard = () => {
     const [Clouds, setClouds] = useState(100)
     const [TempMin, setTempMin] = useState(25)
     const [TempMax, setTempMax] = useState(26)
+    const [data, setData] = useState('')
 
+    const [query] = useSearchParams()
     function getCurrentTime() {
         return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
     }
+
+    const display = (data) => {
+        let temp = Math.floor(data.main.temp);
+        setTemp(temp);
+        temp = Math.floor(data.main.feels_like);
+        setRealFealing(temp)
+        setCity(data.name)
+        setWtitle(data.weather[0].description)
+        fetchIcons(data.weather[0].icon); //build link and set icon directly 
+        setWtime(calcTime(data.timezone))
+        setPressure(data.main.pressure)
+        setHumidity(data.main.humidity)
+        setVisibility(data.visibility)
+        setWindSpeed(data.wind.speed)
+        setWindDeg(data.wind.deg)
+        setClouds(data.clouds.all)
+        setTempMax(data.main.temp_max)
+        setTempMin(data.main.temp_min)
+        console.log("suceess");
+    }
+
+    const doApi = async () => {
+        // setLoading(true)
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${query.get('city') || "paris"}&appid=717509d6f99322934f820c3bf1797d7f&units=metric`
+        const { data } = await axios(url);
+        // const obj = {
+        //     location: {
+        //         city: data.name,
+        //         country: data.sys.country,
+        //         sunrise: data.sys.sunrise,
+        //         sunset: data.sys.sunset
+        //     },
+        //     weather: {
+        //         temp: data.main.temp,
+        //         humidity: data.main.humidity,
+        //         wind: data.wind.speed,
+        //         desc: data.weather[0].description
+        //     },
+        //     coord: {
+        //         lon: data.coord.lon,
+        //         lat: data.coord.lat
+        //     }
+
+        // }
+        console.log(data);
+        setData(data)
+        display(data)
+
+        // setLoading(false)
+    }
+
 
 
     const isDay = (time) => {
@@ -35,6 +89,9 @@ const NowCard = () => {
         }
 
     }
+
+
+
 
     const calcTime = (offset) => {
 
@@ -52,8 +109,9 @@ const NowCard = () => {
         // const output =  nd.getHours() + ":" + nd.getMinutes();
         const output = nd.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
         // set the value of the time 
-        setWtime(output)
+        return output;
     }
+
     const fetchIcons = async (IconCode) => {
         const url = `http://openweathermap.org/img/wn/${IconCode}@2x.png`
         setWicon(url)
@@ -66,7 +124,12 @@ const NowCard = () => {
         // fetchIcons("02n");
         calcTime(3200)
         isDay(9)
-    }, []);
+
+        // setData(bringWeather("paris"))
+        console.log(data);
+        console.log(query.get('city'));
+        doApi();
+    }, [query]);
 
     // fetchIcons("01d")
     return (
@@ -166,7 +229,7 @@ const NowCard = () => {
 
                     {/* </div> */}
                 </div>
-               
+
             </div>
         </div>
     )
